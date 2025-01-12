@@ -1,0 +1,263 @@
+create database E_Vleresimii
+use E_Vleresimii
+
+create table Nxenesii(
+ID_Nxenesi int primary key not null,
+Klasa VARCHAR(10) DEFAULT '12/2',
+EmriN varchar (50),
+MbiemriN varchar (50),
+Lenda varchar (50),
+NotaP_1 int,
+NotaP_2 int,
+NotaP_3 int,
+NotaP int,
+
+    CONSTRAINT fk_Nota1_Nxenesi
+        FOREIGN KEY (NotaP_1) 
+        REFERENCES Nota1 (NotaP_1),
+
+    CONSTRAINT fk_Nota2_Nxenesi
+        FOREIGN KEY (NotaP_2) 
+        REFERENCES Nota2 (NotaP_2),
+
+    CONSTRAINT fk_Nota3_Nxenesi
+        FOREIGN KEY (NotaP_3) 
+        REFERENCES Nota3 (NotaP_3),
+
+    CONSTRAINT fk_NotaP_Nxenesi
+        FOREIGN KEY (NotaP) 
+        REFERENCES Vleresimi_Perfundimtar (NotaP),
+
+	CONSTRAINT fk_Lenda_Nxenesi
+        FOREIGN KEY (Lenda) 
+        REFERENCES Lenda (Lenda)
+
+);
+
+
+insert into Nxenesii
+(ID_Nxenesi, Klasa, EmriN, MbiemriN, Lenda,NotaP_1, NotaP_2,NotaP_3,NotaP) values
+
+('1', '12/1', 'Alisa', 'Maliqi', 'Biologji', '5','3','3','3'),
+('2', '12/2', 'Flutura','Ibrahimi' ,'Kimi', '3','4','4','4'),
+('3', '12/3', 'Gent','Sadiku', 'TIK', '4','5','2','2');
+
+select * from Nxenesii
+
+create table Mesimdhenesii(
+ID_Mesimdhensi int primary key not null,
+Lenda varchar (50),
+MbiemriM varchar (50),
+EmriM varchar (50),
+Nr_Tel int
+CONSTRAINT fk_Lenda_Mesimdhenesii
+        FOREIGN KEY (Lenda) 
+        REFERENCES Lendaa (Lenda)
+);
+
+insert into Mesimdhenesii
+(ID_Mesimdhensi, Lenda, MbiemriM, EmriM, Nr_Tel)values
+
+('1','Kimi','Krasniqi','Ermira','044111222'),
+('2','Biologji','Berisha','Viola','044555666'),
+('3','TIK','Gashi','Erion','044333444');
+
+select * from Mesimdhenesii
+
+
+CREATE TABLE Prindii (
+    ID_Prindi INT PRIMARY KEY NOT NULL,
+    Nxenesi INT, -- Foreign key column
+    MbiemriP VARCHAR(50),
+    EmriP VARCHAR(50),
+    Nr_Tel INT,
+    NotaP_1 int,
+    NotaP_2 int,
+    NotaP_3 int,
+    NotaP int,
+    
+    CONSTRAINT fk_Nxenesi_P
+    FOREIGN KEY (Nxenesi) 
+    REFERENCES Nxenesii (ID_Nxenesi),
+
+    CONSTRAINT fk_Nota1_P
+        FOREIGN KEY (NotaP_1) 
+        REFERENCES Nota1 (NotaP_1),
+
+    CONSTRAINT fk_Nota2_P
+        FOREIGN KEY (NotaP_2) 
+        REFERENCES Nota2 (NotaP_2),
+
+    CONSTRAINT fk_Nota3_P
+        FOREIGN KEY (NotaP_3) 
+        REFERENCES Nota3 (NotaP_3),
+
+    CONSTRAINT fk_NotaP_P
+        FOREIGN KEY (NotaP) 
+        REFERENCES Vleresimi_Perfundimtar (NotaP)
+);
+
+insert into Prindii
+(ID_Prindi, Nxenesi, MbiemriP, EmriP, Nr_Tel, NotaP_1,NotaP_2,NotaP_3,NotaP)values
+
+('1','1','Maxhuni','Kastriot','044123456','5','3','3','3'),
+('2','2','Latifi','Avdi','044667887','3','4','4','4'),
+('3','3','Shabani','Rron','049889778','4','5','2','2');
+
+
+select * from Prindii
+
+
+CREATE TABLE Ditari
+(
+    ID_Klasa VARCHAR(10) DEFAULT '12/2' PRIMARY KEY,
+    Lenda VARCHAR(50),
+    Mesimdhenesi_ID INT,
+    Nxenesi_ID INT,
+    NotaP_1 INT,
+    NotaP_2 INT,
+    NotaP_3 INT,
+    NotaP INT,
+    Prezenca VARCHAR(50),
+    Orari VARCHAR(50),  
+
+    CONSTRAINT fk_Lenda
+        FOREIGN KEY (Lenda) 
+        REFERENCES Lendaa (Lenda),
+
+    CONSTRAINT fk_Mesimdhenesi
+        FOREIGN KEY (Mesimdhenesi_ID) 
+        REFERENCES Mesimdhenesii (ID_Mesimdhensi),
+
+    CONSTRAINT fk_Nxenesi_Ditari
+        FOREIGN KEY (Nxenesi_ID) 
+        REFERENCES Nxenesii (ID_Nxenesi),
+
+    CONSTRAINT fk_Nota1_Ditari
+        FOREIGN KEY (NotaP_1) 
+        REFERENCES Nota1 (NotaP_1),
+
+    CONSTRAINT fk_Nota2_Ditari
+        FOREIGN KEY (NotaP_2) 
+        REFERENCES Nota2 (NotaP_2),
+
+    CONSTRAINT fk_Nota3_Ditari
+        FOREIGN KEY (NotaP_3) 
+        REFERENCES Nota3 (NotaP_3),
+
+    CONSTRAINT fk_NotaP_Ditari
+        FOREIGN KEY (NotaP) 
+        REFERENCES Vleresimi_Perfundimtar (NotaP)
+);
+
+
+
+
+select * from Ditari
+insert into Ditari
+(ID_Klasa,Lenda,Mesimdhenesi_ID,Nxenesi_ID,NotaP_1,NotaP_2,NotaP_3,NotaP,Prezenca,Orari)values
+
+('12/1','Kimi','1','1','5','3','3','3','Prezent','Paradite'),
+('12/2','Biologji','2','2','3','4','4','4','JoPrezent','Pasdite'),
+('12/3','TIK','3','3','4','5','2','2','Prezent','Paradite');
+
+insert into Ditari
+(ID_Klasa, Lenda, Mesimdhenesi_ID, Nxenesi_ID, NotaP_1, NotaP_2, NotaP_3, NotaP, Prezenca, Orari)
+values
+('12/1', 'Kimi', '1', '1', '5', '3', '3', '3', 'Prezent', 'Paradite'),
+('12/2', 'Biologji', '2', '2', '3', '4', '4', '4', 'JoPrezent', 'Pasdite'),
+('12/3', 'TIK', '3', '3', '4', '5', '2', '2', 'Prezent', 'Paradite');
+
+
+create table Lenda(
+Lenda varchar (50) primary key ,
+);
+
+INSERT INTO Lenda (Lenda)
+VALUES
+('Kimi'),
+('Biologji'),
+('TIK');
+select * from Lenda
+
+
+
+
+
+create table Nota1(
+Test1 INT ,
+Test2 int,
+Aktiviteti varchar (50),
+NotaP_1 int PRIMARY KEY
+);
+
+insert into Nota1
+(Test1,Test2,Aktiviteti,NotaP_1)values
+
+('3','5','+','5'),
+('5','2','+','3'),
+('5','3','-','4');
+
+select * from Nota1
+
+create table Nota2(
+Test1 INT,
+Test2 int,
+Aktiviteti varchar (50),
+NotaP_2 int PRIMARY KEY
+);
+
+insert into Nota2
+(Test1,Test2,Aktiviteti,NotaP_2)values
+
+('2','4','+','3'),
+('4','5','+','4'),
+('5','3','-','5');
+
+select * from Nota2
+
+create table Nota3(
+Test1 INT ,
+Test2 int,
+Aktiviteti varchar (50),
+NotaP_3 int PRIMARY KEY
+);
+
+insert into Nota3
+(Test1,Test2,Aktiviteti,NotaP_3)values
+
+('2','4','+','3'),
+('3','5','+','4'),
+('4','3','-','2');
+
+select * from Nota3
+
+
+CREATE TABLE Vleresimi_Perfundimtar (
+    NotaP INT PRIMARY KEY,
+    Nota1 INT,
+    Nota2 INT,
+    Nota3 INT,
+
+    CONSTRAINT fk_Nota1
+    FOREIGN KEY (Nota1) 
+    REFERENCES Nota1 (NotaP_1),
+	 
+    CONSTRAINT fk_Nota2
+    FOREIGN KEY (Nota2) 
+    REFERENCES Nota2 (NotaP_2),
+
+    CONSTRAINT fk_Nota3
+    FOREIGN KEY (Nota3) 
+    REFERENCES Nota3 (NotaP_3)
+);
+
+select * from Vleresimi_Perfundimtar
+
+insert into Vleresimi_Perfundimtar
+(NotaP, Nota1, Nota2, Nota3) values
+
+('2','5','3', '3'),
+('3', '3', '4', '4'),
+('4', '4', '5', '2');
+
